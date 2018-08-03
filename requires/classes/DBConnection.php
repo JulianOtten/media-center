@@ -1,4 +1,5 @@
 <?php
+require_once 'Logger.php';
 
 class DBConnection {
     public $db_host;
@@ -7,6 +8,7 @@ class DBConnection {
     public $db_name;
     private $db_conn;
     private $statement;
+    private $log;
     private $query;
 
     public function __construct($host, $user, $password, $name) {
@@ -17,9 +19,11 @@ class DBConnection {
         $this->db_user = $user;
         $this->db_password = $password;
         $this->db_name = $name;
+        $this->log = new Logger();
+        $this->connect();
     }
 
-    public function connect() {
+    protected function connect() {
         try {
             $db_conn = new PDO("mysql:dbname=$this->db_name;host=$this->db_host", $this->db_user, $this->db_password);
             $db_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -30,24 +34,27 @@ class DBConnection {
     }
 
     public function prepare($query) {
-        $conn = $this->db_conn;
         $this->query = $query;
+        $conn = $this->db_conn;
         $stmt = $conn->prepare($query);
         $this->statement = $stmt;
     }
 
-    public function bindParam($param, $value) {
+    public function bindParam($param, $value, $type) {
         $stmt = $this->statement;
-        $stmt->bindParam($param, $value);
+        if(isset($type)) $stmt->bindParam($param, $value, $type);
+        else $stmt->bindParam($param, $value);
+        $this->log->info($param . " = " .$value);
         $this->statement = $stmt; 
     }
 
     public function query() {
-        $this->logQuery($this->query);
         if(!$this->statement->execute()){
             throw new Exception("There was an error with your query.");
             exit();
         }
+        $this->log->info($this->query);
+        if(substr($this->query,0 ,6) == "SELECT") return $this->getResults();
     }
 
     public function getResults() {
@@ -70,15 +77,5 @@ class DBConnection {
             }
         }
         return true;
-    }
-
-    protected function logQuery($query){
-        $logs = __DIR__ . "/../logs/";
-        $date = date('d-m-Y') . ".log";
-        file_put_contents(
-            $logs . $date,
-            sprintf("[%s] %s\n", date("Y-m-d h:i:s"), $query),
-            FILE_APPEND
-        );
     }
 }
