@@ -1,4 +1,0 @@
-[2018-08-03 10:51:17] [INFO]  SELECT * FROM users WHERE user_id = :user_id
-[2018-08-03 10:51:28] [INFO]  SELECT * FROM users WHERE user_id = :user_id
-[2018-08-03 10:55:23] [INFO]  :user_id = 1[1]
-[2018-08-03 10:55:23] [INFO]  SELECT * FROM users WHERE user_id = :user_id
