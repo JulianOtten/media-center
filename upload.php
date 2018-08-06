@@ -36,4 +36,4 @@ $db->query();
 
 echo generateLink($target_file);
 
-$logger->info("New Image uploaded:\n\tUser: {$_POST['username']}\n\tPath: ${target_file}");
+$logger->info("New Image uploaded:\n\t\t\t\t\t\t\t  User: {$_POST['username']}\n\t\t\t\t\t\t\t  Path: ${target_file}");
