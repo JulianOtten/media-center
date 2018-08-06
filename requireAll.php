@@ -13,4 +13,6 @@ function requireFiles($dir) {
     }
 }
 
+$config = include_once __DIR__ ."/config.php";
+
 requireFiles("requires");

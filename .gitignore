@@ -1,1 +1,5 @@
 *.log
+images/galery/*.png
+images/galery/*.jpg
+images/galery/*.jpeg
+images/galery/*.gif

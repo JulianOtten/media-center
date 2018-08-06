@@ -15,3 +15,16 @@ function setHeader($title){
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <script src="js/index.js"></script>';
 }
+
+function generateLink($target) {
+    $self = explode('/', $_SERVER['PHP_SELF']);
+    $self = end($self);
+
+    $file = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    if(substr($file, - strlen($self)) == $self) {
+        $file = substr($file, 0, strlen($file) - strlen($self));
+    }
+
+    return $file . $target;
+}

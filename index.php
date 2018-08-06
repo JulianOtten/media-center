@@ -8,11 +8,7 @@
 </head>
 <body>
      <?php
-        $db = new DBConnection("localhost", "root", "", "mediacenter");
-        $db->prepare("SELECT * FROM users WHERE user_id = :user_id");
-        $db->bindParam(":user_id", 1, PDO::PARAM_INT);
-        $lol = $db->query();
-        print_r($lol);
+        $db = new DBConnection("localhost", $config["DB_user"], $config["DB_password"], $config["DB_databaseName"]);
      ?>
 </body>
 </html>
